@@ -1,0 +1,1 @@
+await ERC20Minter.mint(userAddress, tokenAddress, amount);
