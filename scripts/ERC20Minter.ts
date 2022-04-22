@@ -1,13 +1,10 @@
 import { BigNumber } from 'ethers';
 import { ethers } from 'hardhat';
-
-const SLOT_BY_TOKEN = {
-    '0x6b175474e89094c44da98b954eedeac495271d0f': (key: string) => [key, 2], // DAI
-    '0xd632f22692FaC7611d2AA1C0D552930D43CAEd3B': (key: string) => [15, key], // FRAX3CRV
-};
+import SLOT_BY_TOKEN from '../constants/SLOT_BY_TOKEN';
 
 export default class ERC20Minter {
     public static async mint(recipientAddress: string, tokenAddress: string, amount: BigNumber) {
+        if(SLOT_BY_TOKEN[tokenAddress] === undefined) throw Error('Token not registred');
         const index = ethers.utils.solidityKeccak256(
             ["uint256", "uint256"],
             SLOT_BY_TOKEN[tokenAddress](recipientAddress)
